@@ -53,13 +53,24 @@
 				storageBucket: "",
 				messagingSenderId: "",
 			  };
+
 			  firebase.initializeApp(config);
 			  var defaultDatabase = firebase.database();
 
-			  //var userId = firebase.auth().currentUser.uid;
-			  firebase.database().ref("/GameState").once('value').then(function(snapshot) {
-			      console.log(snapshot.val())
+			  var startGameRef = firebase.database().ref('game/state');
+				startGameRef.on('value', function(snapshot) {
+				  if (snapshot.val() === "start") {
+				      console.log("read start");
+					  initGame(true);
+				  }
+				});
+
+			function startGame() {
+			  console.log("write start");
+			  firebase.database().ref('game/').set({
+				state: "start"
 			  });
+			}
 			
 			function simulateKeyup(code) { 
 				var e = jQuery.Event("keyup");
@@ -149,10 +160,8 @@
 				
 				$("body").keydown(function(e) { 
 				
-					if (HOME) { 
-						
-						initGame(true);
-						
+					if (HOME) {
+						startGame();
 					} else { 				
 						//if (!KEYDOWN) { 
 							KEYDOWN = true;
@@ -190,7 +199,7 @@
 								} else { 
 									pauseGame();
 								}
-							} else if (GAMEOVER) { 
+							} else if (GAMEOVER) {
 								initHome();
 							}
 						//}
