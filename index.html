@@ -77,12 +77,18 @@
 			  firebase.database().ref('Pacman').set(direction);
 			}
 
+			var isFirst = true;
+
 			var movePacmanRef = firebase.database().ref('Pacman');
 				movePacmanRef.on('value', function(snapshot) {
-				  direction = snapshot.val();
-				  console.log("from server" + toString(direction));
-				  if (direction >= 1 || direction <= 4) {
-                      movePacman(direction);
+				  if (isFirst) {
+				     isFirst = false;
+				  } else {
+                      direction = snapshot.val();
+                      console.log("from server" + toString(direction));
+                      if (direction >= 1 || direction <= 4) {
+                          movePacman(direction);
+                      }
                   }
 				});
 			
