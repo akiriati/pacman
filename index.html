@@ -40,8 +40,26 @@
 		<script type="text/javascript" src="js/ghosts.js"></script>
 		<script type="text/javascript" src="js/home.js"></script>
 		<script type="text/javascript" src="js/sound.js"></script>
-		
-		<script type="text/javascript">		
+
+		<script src="https://www.gstatic.com/firebasejs/5.9.3/firebase.js"></script>
+
+		<script type="text/javascript">
+
+			  var config = {
+				apiKey: "AIzaSyAHzvy8klcz7CPZv4B3MCgE7r3E1TM6Zk4",
+				authDomain: "multiplayer-pacman-59ff2.firebaseapp.com",
+				databaseURL: "https://multiplayer-pacman-59ff2.firebaseio.com",
+				projectId: "multiplayer-pacman-59ff2",
+				storageBucket: "",
+				messagingSenderId: "",
+			  };
+			  firebase.initializeApp(config);
+			  var defaultDatabase = firebase.database();
+
+			  //var userId = firebase.auth().currentUser.uid;
+			  firebase.database().ref("/GameState").once('value').then(function(snapshot) {
+			      console.log(snapshot.val())
+			  });
 			
 			function simulateKeyup(code) { 
 				var e = jQuery.Event("keyup");
@@ -149,7 +167,7 @@
 								moveGhosts();
 								
 								blinkSuperBubbles();
-								
+
 							} else if (e.keyCode >= 37 && e.keyCode <= 40 && !PAUSE && !PACMAN_DEAD && !LOCK) { 
 								if ( e.keyCode === 39 ) { 
 									movePacman(1);
