@@ -74,12 +74,16 @@
 
 			function sendMovePacman(direction) {
 			  console.log("write pacman " + toString(direction));
-			  firebase.database().ref('Pacman').set(direction);
+			  firebase.database().ref('Pacman').set({
+				  direction:direction,
+				  x: PACMAN_POSITION_X,
+				  y: PACMAN_POSITION_Y
+              });
 			}
 
 			var isFirst = true;
 
-			var movePacmanRef = firebase.database().ref('Pacman');
+			/*var movePacmanRef = firebase.database().ref('Pacman');
 				movePacmanRef.on('value', function(snapshot) {
 				  if (isFirst) {
 				     isFirst = false;
@@ -91,6 +95,7 @@
                       }
                   }
 				});
+				*/
 			
 			function simulateKeyup(code) { 
 				var e = jQuery.Event("keyup");
@@ -199,13 +204,13 @@
 
 							} else if (e.keyCode >= 37 && e.keyCode <= 40 && !PAUSE && !PACMAN_DEAD && !LOCK) { 
 								if ( e.keyCode === 39 ) { 
-									sendMovePacman(1);
+									movePacman(1);
 								} else if ( e.keyCode === 40 ) { 
-									sendMovePacman(2);
+									movePacman(2);
 								} else if ( e.keyCode === 37 ) { 
-									sendMovePacman(3);
+									movePacman(3);
 								} else if ( e.keyCode === 38 ) { 
-									sendMovePacman(4);
+									movePacman(4);
 								}
 							} else if (e.keyCode === 68 && !PAUSE) { 
 								/*if ( $("#canvas-paths").css("display") === "none" ) { 

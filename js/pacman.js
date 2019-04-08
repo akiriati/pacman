@@ -91,24 +91,26 @@ function tryMovePacman(direction) {
 
 function movePacman(direction) {
 
+
 	if (PACMAN_MOVING === false) { 
 		PACMAN_MOVING = true;
 		drawPacman();
 		PACMAN_MOVING_TIMER = setInterval('movePacman()', PACMAN_MOVING_SPEED);
 	}
-	
+
 	var directionTry = direction;
 	var quarterChangeDirection = false;
 	
 	if (!directionTry && PACMAN_DIRECTION_TRY != -1) { 
 		directionTry = PACMAN_DIRECTION_TRY;
 	}
-	
-	if ((!directionTry || PACMAN_DIRECTION !== directionTry)) { 
-	
+
+	sendMovePacman(direction || PACMAN_DIRECTION || PACMAN_DIRECTION_TRY);
+
+	if ((!directionTry || PACMAN_DIRECTION !== directionTry)) {
 		if (directionTry) { 
-			if (canMovePacman(directionTry)) { 
-				if (PACMAN_DIRECTION + 1 === directionTry || PACMAN_DIRECTION - 1 === directionTry || PACMAN_DIRECTION + 1 === directionTry || (PACMAN_DIRECTION === 4 && directionTry === 1) || (PACMAN_DIRECTION === 1 && directionTry === 4) ) { 
+			if (canMovePacman(directionTry)) {
+				if (PACMAN_DIRECTION + 1 === directionTry || PACMAN_DIRECTION - 1 === directionTry || PACMAN_DIRECTION + 1 === directionTry || (PACMAN_DIRECTION === 4 && directionTry === 1) || (PACMAN_DIRECTION === 1 && directionTry === 4) ) {
 					quarterChangeDirection = true;
 				}
 				PACMAN_DIRECTION = directionTry;
